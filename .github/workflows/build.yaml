@@ -44,7 +44,7 @@ jobs:
           ACTIONS_RUNNER_DEBUG: true
         with:
           appknox_access_token: ${{secrets.APPKNOX_ACCESS_TOKEN}}
-          file_path: apk-binary-code/sample-app.apk
+          file_path: app/build/outputs/bundle/debug/app.aab
           risk_threshold: HIGH
           sarif: 'true'
         continue-on-error: true
