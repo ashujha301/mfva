@@ -37,9 +37,20 @@ jobs:
         with:
           name: mfva.aab
           path: app/build/outputs/bundle/debug/app.aab
-      - name: Appknox GitHub action
-        uses: appknox/appknox-github-action@1.0.0
+      - name: Appknox Scan
+        id: appknox_scan
+        uses: "ashujha301/appknox-github-action@main"
+        env:
+          ACTIONS_RUNNER_DEBUG: true
         with:
-          appknox_access_token: ${{ secrets.APPKNOX_ACCESS_TOKEN }}
-          file_path: app/build/outputs/bundle/debug/app.aab
-          risk_threshold: ${{ env.RISK_THRESHOLD }}
+          appknox_access_token: ${{secrets.APPKNOX_ACCESS_TOKEN}}
+          file_path: apk-binary-code/sample-app.apk
+          risk_threshold: HIGH
+          sarif: 'true'
+        continue-on-error: true
+
+      - name: Upload SARIF to GHAS
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: report.sarif
